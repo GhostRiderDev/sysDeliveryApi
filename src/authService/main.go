@@ -9,6 +9,7 @@ import (
 	limit "github.com/aviddiviner/gin-limit"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 func main() {
@@ -21,15 +22,24 @@ func main() {
 }
 
 func startServer(router http.Handler) {
+	viper.SetConfigFile("config.json")
+
+	if err := viper.ReadInConfig(); err != nil {
+		_ = fmt.Errorf("fatal error in config file: %s", err.Error())
+		panic(err)
+	}
+
+	serverPort := fmt.Sprintf(":%s", viper.GetString("ServerPort"))
+
 	s := &http.Server{
-		Addr:           ":6060",
+		Addr:           serverPort,
 		Handler:        router,
 		ReadTimeout:    18000 * time.Second,
 		WriteTimeout:   18000 * time.Second,
 		MaxHeaderBytes: 1 << 20, // 1 MB
 	}
 
-	fmt.Print("Server running on http://127.0.0.1:6060")
+	fmt.Printf("Server running on http:127.0.0.1%s", serverPort)
 
 	if err := s.ListenAndServe(); err != nil {
 		_ = fmt.Errorf("fatal error description: %s", strings.ToLower(err.Error()))

@@ -2,3 +2,6 @@ dist
 build
 .vscode
 .idea
+
+config.json
+tmp
