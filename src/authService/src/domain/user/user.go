@@ -11,7 +11,6 @@ const (
 	ADMIN   UserRole = "ADMIN"
 	CLIENT  UserRole = "CLIENT"
 	DELIVER UserRole = "DELIVER"
-	alguma = "hello231"
 )
 
 type User struct {
