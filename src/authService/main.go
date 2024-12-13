@@ -33,6 +33,7 @@ func startServer(router http.Handler) {
 
 	s := &http.Server{
 		Addr:           serverPort,
+
 		Handler:        router,
 		ReadTimeout:    18000 * time.Second,
 		WriteTimeout:   18000 * time.Second,
@@ -40,6 +41,7 @@ func startServer(router http.Handler) {
 	}
 
 	fmt.Printf("Server running on http:127.0.0.1%s", serverPort)
+
 
 	if err := s.ListenAndServe(); err != nil {
 		_ = fmt.Errorf("fatal error description: %s", strings.ToLower(err.Error()))
